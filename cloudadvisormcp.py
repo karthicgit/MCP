@@ -74,4 +74,7 @@ def cost_optimization() -> List[Advisor]:
 
 
 if __name__ == "__main__":
-    mcp.run(transport="http",host="<instance_ip>",port=<preferredport>,path="<preferredpath>")
+    host = os.environ.get("MCP_HOST", "0.0.0.0")
+    port = int(os.environ.get("MCP_PORT",<preferredport>))
+    mcp.run(transport="http",host=host,port=port,path="<preferredpath>")
+    
