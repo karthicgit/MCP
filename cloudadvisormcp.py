@@ -1,6 +1,7 @@
 from fastmcp import FastMCP
 from typing import List,TypedDict
 import oci
+import os
 import logging
 from starlette.requests import Request
 from starlette.responses import PlainTextResponse
@@ -63,8 +64,9 @@ def cost_optimization() -> List[Advisor]:
     """It will help with find resources for cost optimization in Oracle Cloud.If user asked for specific resource summarize it only for that resources and not for all.If in doubt always ask the user for more information"""
     cost_response = cost_saving_recommendations()
 
+    #Only the resources for cost management category is included and estimated saving greater than zero
     for name in cost_response:
-        if name.category_id == category_id:
+        if name.category_id == category_id and name.estimated_cost_saving > 0:
             list_of_cost_resources.append(
                 {"name": name.name, "resource_type": name.resource_type, "compartment": name.compartment_name,
                  "region": name.extended_metadata["region"],
